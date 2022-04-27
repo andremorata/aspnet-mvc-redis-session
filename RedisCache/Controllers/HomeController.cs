@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace RedisCache.Controllers
@@ -28,6 +26,11 @@ namespace RedisCache.Controllers
             String messageFromCache = CacheManager.Get<String>("message");
 
             ViewBag.Message = messageFromCache;
+
+            var nObj = new List<string>() { "Item 1", "Item 2", "Item 3" };
+
+            // grava na session
+            Session["RedisObject"] = nObj;
 
             return View();
         }

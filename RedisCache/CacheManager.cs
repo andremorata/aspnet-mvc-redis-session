@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-
-using ServiceStack.Redis;
+﻿using ServiceStack.Redis;
+using System;
 
 namespace RedisCache
 {
     public class CacheManager
     {
         private static IRedisClient cache;
-        private static string host = "aspnet-cache.redis.cache.windows.net";
-        private static int port = 6380;
-        private static string password = "gGkQSTQOtQwpt2cnylK74UzQOfrt2nxEUtBWx3LSCvY=";
-        
+        private static readonly string host = "127.0.0.1";
+        private static readonly int port = 6379;
+        private static readonly string password = "qdy4V3gxS!usjA=";
+        private static readonly bool useSsl = false;
+
         private static IRedisClient Cache
         {
             get
             {
                 if (cache == null)
                     cache = GetConnection();
-                
                 return cache;
 
             }
@@ -29,11 +24,13 @@ namespace RedisCache
 
         private static IRedisClient GetConnection()
         {
-            RedisEndpoint redisConfig = new RedisEndpoint();
-            redisConfig.Host = host;
-            redisConfig.Ssl = true;
-            redisConfig.Port = port;
-            redisConfig.Password = password;
+            var redisConfig = new RedisEndpoint
+            {
+                Host = host,
+                Ssl = useSsl,
+                Port = port,
+                Password = password
+            };
 
             RedisClient client = new RedisClient(redisConfig);
 
@@ -50,7 +47,7 @@ namespace RedisCache
 
         public static T Get<T>(string key)
         {
-             return Cache.Get<T>(key);
+            return Cache.Get<T>(key);
         }
 
         public static bool Contains(string key)

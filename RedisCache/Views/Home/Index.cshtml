@@ -1,13 +1,23 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    var list = Session["RedisObject"] as List<string>;
 }
 
 <h2>@ViewBag.Title.</h2>
 
 <h3>@ViewBag.Message</h3>
 
-<h3>
-    @Session["RedisMessage"]
-</h3>
+<hr />
+
+<h2>Session ID = @Session.SessionID</h2>
+<h3>@Session["RedisMessage"]</h3>
+<p>
+    <ul>
+        @foreach (var item in list)
+        {
+            <li>@item</li>
+        }
+    </ul>
+</p>
 
 
